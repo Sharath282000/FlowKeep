@@ -94,7 +94,7 @@ export default function DashboardContent({
                 )}
             </div>
 
-            {!filterProject || filterProject.length === 0 && <NoProject click={handlerestfilter} />}
+            {projects.length>0 && filterProject.length === 0 && <NoProject click={handlerestfilter} />}
 
         </div>
     );

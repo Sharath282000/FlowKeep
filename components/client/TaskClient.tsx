@@ -18,7 +18,7 @@ import {
     SelectValue,
 } from "@/components/ui/select"
 import { Input } from '../ui/input';
-import { AlertTriangle, CalendarCheck, CalendarIcon, CircleCheckBig, ClipboardList, Flag, FunnelX, OctagonX, SearchIcon } from 'lucide-react';
+import { AlertTriangle, CalendarCheck, CalendarIcon, CircleCheckBig, ClipboardList, Download, Flag, FunnelX, OctagonX, SearchIcon } from 'lucide-react';
 import { Button } from '../ui/button';
 
 import { Tooltip, TooltipContent, TooltipTrigger } from '../ui/tooltip';
@@ -30,6 +30,7 @@ import { useAuth } from '@/context/AuthContext';
 import { useTaskFilter } from '@/hooks/useTaskFilter';
 import { CountBadge } from './CountBadges';
 import { useTaskStatus } from '@/hooks/useTaskStatus';
+import DownloadTasks from './DownloadTasks';
 
 
 const TaskClient = ({ projectId, tasks }: { projectId: string, tasks: TaskData[] }) => {
@@ -411,29 +412,30 @@ const TaskClient = ({ projectId, tasks }: { projectId: string, tasks: TaskData[]
                                     <CountBadge count={countofduedate ?? 0} />
                                 )}
                             </div>
+                            <div className='flex gap-2 justify-center items-center md:justify-evenly'>
 
+                                <Tooltip>
+                                    <TooltipTrigger asChild>
+                                        <Button className='cursor-pointer bg-card-foreground hover:bg-color-none' onClick={() => {
+                                            setSearchTerm('')
+                                            setSelectedDate(null);
+                                            setSelectedPriority('All')
+                                            setSelectedTag('All')
+                                            setstatus('All')
+                                            setActiveCardFilter("All")
+                                        }}>
+                                            <FunnelX />
+                                        </Button>
+                                    </TooltipTrigger>
+                                    <TooltipContent>
+                                        Reset Filters
+                                    </TooltipContent>
+                                </Tooltip>
 
-                            <Tooltip>
-                                <TooltipTrigger asChild>
-                                    <Button variant='ghost' className='cursor-pointer' onClick={() => {
-                                        setSearchTerm('')
-                                        setSelectedDate(null);
-                                        setSelectedPriority('All')
-                                        setSelectedTag('All')
-                                        setstatus('All')
-                                        setActiveCardFilter("All")
-                                    }}>
-                                        <FunnelX />
-                                    </Button>
-                                </TooltipTrigger>
-                                <TooltipContent>
-                                    Reset Filters
-                                </TooltipContent>
-                            </Tooltip>
+                                <DownloadTasks tasks={tasks} />
+                            </div>
 
                         </div>
-                        {/* Priority */}
-
                     </div>
                 </div>
             </div>

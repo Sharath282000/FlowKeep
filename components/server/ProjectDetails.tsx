@@ -29,7 +29,7 @@ const ProjectDetails = ({
               </h1>
 
               <div className="flex flex-col md:grid md:grid-cols-[1fr_auto_auto] md:items-center md:gap-4">
-                <p className="w-full max-w-[600px] wrap-break-word text-gray-600 leading-relaxed my-2 text-center md:text-left text-sm">
+                <p className="w-full max-w-[600px] wrap-break-word whitespace-pre-wrap overflow-auto text-gray-600 leading-relaxed my-2 text-center md:text-left text-sm">
                   {capitalizefirstletter(project.description)}
                 </p>
                 <div className="self-center md:self-center">

@@ -2,12 +2,14 @@
 
 import { useAuth } from '@/context/AuthContext';
 import { Skeleton } from '../ui/skeleton';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 import AddProject from './AddProject';
 import { Project } from '@/lib/type';
 import ProjectItem from '../server/ProjectItem';
 import NoProjects from '../server/NoProjects';
+import { Input } from '../ui/input';
+import NoProject from '../server/NoProject';
 
 export default function DashboardContent({
     initialProjects,
@@ -17,8 +19,9 @@ export default function DashboardContent({
     const { user, loading } = useAuth();
     const [emoji, setEmoji] = useState('');
     const [greeting, setGreeting] = useState('');
+    const [search, setsearch] = useState('');
 
-    const emojis = ['👋','😊', '🫶', '🩷', '❤️‍🔥', '👀', '⭐', '✨','👻','🧛🏻','😍','💜','🤍','🖤','🩵','😇'];
+    const emojis = ['👋', '😊', '🫶', '🩷', '❤️‍🔥', '👀', '⭐', '✨', '👻', '🧛🏻', '😍', '💜', '🤍', '🖤', '🩵', '😇'];
 
     const projects = initialProjects
 
@@ -41,6 +44,18 @@ export default function DashboardContent({
         }
     }, [user]);
 
+    //Filter project
+
+    const filterProject = useMemo(() => {
+        if (!search.trim()) return projects
+        const matchcard = projects.filter(t => t.title.toLowerCase().includes(search.toLowerCase()) || t.description.toLowerCase().includes(search.toLowerCase()))
+        return matchcard
+    }, [projects, search])
+
+    const handlerestfilter = () => {
+        setsearch('')
+    }
+
     return (
         <div className="p-5">
             <div className="flex flex-col md:flex-row gap-3 md:gap-0 items-center justify-between xl:justify-center xl:flex-col xl:gap-5">
@@ -58,10 +73,19 @@ export default function DashboardContent({
                 )}
             </div>
 
+            {projects.length > 3 && <div className='my-3 flex items-center justify-center'>
+                <div>
+                    <Input value={search} type='text' className='w-xs mt-3 text-xs md:text-sm' placeholder='Search Projects' onChange={(e) => {
+                        setsearch(e.target.value)
+                    }} />
+                </div>
+            </div>}
+
+
             <div className="my-5 md:my-8 mx-auto max-w-[1400px] px-4">
                 {projects.length > 0 ? (
                     <div className="grid grid-cols-1 gap-3 md:grid-cols-3 xl:grid-cols-4 md:gap-4">
-                        {projects.map((p) => (
+                        {filterProject.map((p) => (
                             <ProjectItem key={p.id} project={p} userId={user?.uid} />
                         ))}
                     </div>
@@ -69,6 +93,9 @@ export default function DashboardContent({
                     <NoProjects />
                 )}
             </div>
+
+            {!filterProject || filterProject.length === 0 && <NoProject click={handlerestfilter} />}
+
         </div>
     );
 }

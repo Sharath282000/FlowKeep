@@ -2,6 +2,7 @@
 
 import { db } from "@/lib/firebase";
 import { TaskData } from "@/lib/type";
+import { convertDate } from "@/lib/utils/functions";
 import { collection, getDocs, orderBy, query } from "firebase/firestore";
 
 export async function getTasks(
@@ -18,14 +19,6 @@ export async function getTasks(
     );
 
     const snapshot = await getDocs(q);
-
-    const convertDate = (val: any) => {
-      if (!val) return null;
-      if (typeof val === "string") return val;
-      if (val?.toDate) return val.toDate().toISOString();
-      if (val?.seconds) return new Date(val.seconds * 1000).toISOString();
-      return String(val);
-    };
 
     let tasks: TaskData[] = snapshot.docs.map((doc) => {
       const data = doc.data();

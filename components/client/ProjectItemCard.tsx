@@ -26,6 +26,8 @@ const ProjectItemCard = ({ project, userId }: { project: Project, userId: string
 
     const projecId = project.id
 
+    const formattedDescription = capitalizefirstletter(project.description);
+
     if (!projecId || !userId) return null
 
     const { progress, total, completed, duetoday } = useTaskStats(projecId)
@@ -42,10 +44,10 @@ const ProjectItemCard = ({ project, userId }: { project: Project, userId: string
                         </span>
                     </CardAction>
                 )}
-                <CardDescription className="text-left leading-relaxed text-sm">
+                <CardDescription className="text-left wrap-break-word line-clamp-4 leading-relaxed text-sm">
                     {project.description.length > 150
-                        ? capitalizefirstletter(project.description).slice(0, 150) + "..."
-                        : capitalizefirstletter(project.description)}
+                        ? formattedDescription.slice(0, 150) + "..."
+                        : formattedDescription}
                 </CardDescription>
             </CardHeader>
 

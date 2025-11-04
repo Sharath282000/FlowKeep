@@ -45,3 +45,19 @@ export const getborderclass = (priority: string) => {
       return "border-l-gray-900";
   }
 };
+
+export const convertDate = (val: any) => {
+  if (!val) return null;
+  if (typeof val === "string") return val;
+  if (val?.toDate) return val.toDate().toISOString();
+  if (val?.seconds) return new Date(val.seconds * 1000).toISOString();
+  return String(val);
+};
+
+export const formatReadableDate = (val: any) => {
+        const dateValue = convertDate(val);
+        if (!dateValue) return "";
+        const parsed = new Date(dateValue);
+        if (isNaN(parsed.getTime())) return "";
+        return parsed.toLocaleDateString("en-GB"); // e.g. "03/11/2025"
+    };

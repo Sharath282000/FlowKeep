@@ -6,7 +6,6 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import Navbar from "@/components/client/Navbar"
 
-// ✅ Lucide Icons
 import {
   Compass,
   Rocket,
@@ -20,15 +19,14 @@ import {
   Filter,
   Bell,
   ShieldCheck,
-  Smartphone,
   CheckCircle2,
   PauseCircle,
   AlertTriangle,
   Timer,
   RotateCcw,
-  Lock,
   BarChart2,
-  Brain,
+  Cpu,
+  Cloud,
 } from "lucide-react"
 
 const sections = [
@@ -36,6 +34,7 @@ const sections = [
   { id: "getting-started", title: "Getting Started", icon: Rocket },
   { id: "features", title: "Key Features", icon: Puzzle },
   { id: "benefits", title: "Why You’ll Love FlowKeep", icon: Lightbulb },
+  { id: "lyfn", title: "Lyfn Integration", icon: Cpu },
   { id: "roadmap", title: "What’s Coming Next", icon: CalendarClock },
   { id: "final-note", title: "Final Note", icon: Coffee },
 ]
@@ -78,6 +77,7 @@ export default function DocsPage() {
 
         {/* Main Content */}
         <main className="flex-1 space-y-16 md:pl-10 text-sm sm:text-base leading-relaxed">
+
           {/* Overview */}
           <motion.section
             id="overview"
@@ -91,8 +91,16 @@ export default function DocsPage() {
               FlowKeep — Your Space to Stay Organized
             </h1>
             <p className="text-muted-foreground">
-              Welcome to <strong>FlowKeep</strong> — your personal space to plan, manage, and complete your projects easily. 
-              It helps you stay organized, focused, and aware of your priorities — all in a calm and clutter-free workspace.
+              <strong>FlowKeep</strong> is your personal productivity dashboard — a calm, minimal, and intelligent
+              space to manage projects, track progress, and keep your workflow simple.
+            </p>
+            <p className="text-muted-foreground">
+              Built as a <strong>Progressive Web App (PWA)</strong>, FlowKeep works offline, syncs instantly when you reconnect,
+              and can be installed on your desktop or mobile — giving you the feel of a native app anywhere.
+            </p>
+            <p className="text-muted-foreground">
+              FlowKeep is evolving into an ecosystem that connects with <strong>Lyfn</strong> — an AI-powered personal
+              companion that understands your goals, patterns, and habits to make your digital workspace smarter.
             </p>
           </motion.section>
 
@@ -103,28 +111,29 @@ export default function DocsPage() {
             </h2>
             <Card>
               <CardContent className="p-4 sm:p-6 space-y-4">
-                <p><strong>1. Sign In:</strong> Click “Sign in with Google” to enter your workspace. Everything is private and visible only to you.</p>
-                <p><strong>2. Create a Project:</strong> Tap “New Project” and give it a name, short description, and due date.</p>
-                <p><strong>3. Edit or Delete a Project:</strong> Update or remove projects anytime to keep your dashboard clean.</p>
-                <p><strong>4. View a Project:</strong> Open “View Project” to access and manage all related tasks.</p>
-                <p><strong>5. Add a Task:</strong> Click “Add Task,” enter the title, priority, and due date to create one.</p>
+                <p><strong>1. Sign In:</strong> Click “Sign in with Google” to enter your private workspace.</p>
+                <p><strong>2. Create a Project:</strong> Add a name and description.</p>
+                <p><strong>3. Manage Projects:</strong> Edit or delete any project anytime to keep things tidy.</p>
+                <p><strong>4. View a Project:</strong> Dive into project view to see all its related tasks.</p>
+                <p><strong>5. Add Tasks:</strong> Create tasks with titles, priorities, and due dates.</p>
 
-                <p><strong>6. Task Flow:</strong> Every task moves through smart stages automatically:</p>
+                <p><strong>6. Task Flow:</strong> Every task moves automatically through smart stages:</p>
                 <ul className="space-y-2">
-                  <li className="flex items-center gap-2"><ListTodo size={16}/> <strong>New:</strong> All new tasks start here.</li>
-                  <li className="flex items-center gap-2"><Timer size={16}/> <strong>Pending:</strong> Tasks due today move here automatically.</li>
-                  <li className="flex items-center gap-2"><AlertTriangle size={16}/> <strong>Backlog:</strong> Tasks past their due date are moved here.</li>
-                  <li className="flex items-center gap-2"><Settings size={16}/> <strong>In Progress:</strong> Move tasks here when you start working on them.</li>
-                  <li className="flex items-center gap-2"><PauseCircle size={16}/> <strong>On Hold:</strong> For paused tasks.</li>
-                  <li className="flex items-center gap-2"><CheckCircle2 size={16}/> <strong>Completed:</strong> Finished tasks are stored here.</li>
+                  <li className="flex items-center gap-2"><ListTodo size={16} /> <strong>New:</strong> Freshly created tasks.</li>
+                  <li className="flex items-center gap-2"><Timer size={16} /> <strong>Pending:</strong> Due today.</li>
+                  <li className="flex items-center gap-2"><AlertTriangle size={16} /> <strong>Backlog:</strong> Overdue tasks.</li>
+                  <li className="flex items-center gap-2"><Settings size={16} /> <strong>In Progress:</strong> Actively being worked on.</li>
+                  <li className="flex items-center gap-2"><PauseCircle size={16} /> <strong>On Hold:</strong> Temporarily paused.</li>
+                  <li className="flex items-center gap-2"><CheckCircle2 size={16} /> <strong>Completed:</strong> Finished and archived.</li>
                 </ul>
 
                 <p>
-                  Once completed, tasks can only be reopened by moving them back to <strong>New</strong>.
-                  FlowKeep automatically organizes overdue and due-today tasks — so you stay focused, not busy.
+                  FlowKeep automatically moves tasks to <strong>Pending</strong> when they are due today, and to <strong>Backlog</strong> if they are overdue.
+                  All other task stages are managed manually, so you stay in control while still benefiting from smart automation.
                 </p>
 
-                <p><strong>7. Edit or Delete Tasks:</strong> Open any task to update its title, due date, or delete it if no longer needed.</p>
+                <p><strong>7. Edit or Delete Tasks:</strong> Open any task to update or remove it if no longer needed.</p>
+                <p><strong>8. Export Tasks:</strong> Download all tasks of a project as a CSV file for offline review or reporting.</p>
               </CardContent>
             </Card>
           </section>
@@ -135,12 +144,14 @@ export default function DocsPage() {
               <Puzzle className="w-6 h-6 text-primary" /> Key Features
             </h2>
             <ul className="space-y-2">
-              <li className="flex gap-2"><FolderKanban size={16}/> <strong>Project Boards:</strong> Manage all your projects effortlessly.</li>
-              <li className="flex gap-2"><RotateCcw size={16}/> <strong>Automatic Task Flow:</strong> Tasks move automatically based on due dates.</li>
-              <li className="flex gap-2"><BarChart2 size={36}/><strong>Analytics:</strong> See the total number of high, medium, and low-priority tasks, along with how many are due today or overdue — all at a glance.</li>
-              <li className="flex gap-2"><Filter size={16}/> <strong>Smart Filters:</strong> Quickly find tasks by priority, status, or date.</li>
-              <li className="flex gap-2"><Bell size={16}/> <strong>Timely Notifications:</strong> Stay reminded about what’s due or pending.</li>
-              <li className="flex gap-2"><ShieldCheck size={16}/> <strong>Private Workspace:</strong> Everything stays safe and only accessible by you.</li>
+              <li className="flex gap-2"><FolderKanban size={16} /> <strong>Project Boards:</strong> Manage all your projects effortlessly.</li>
+              <li className="flex gap-2"><RotateCcw size={16} /> <strong>Automatic Task Flow:</strong> Tasks move automatically based on due dates.</li>
+              <li className="flex gap-2"><BarChart2 size={16} /><strong>Analytics:</strong> Get quick insights into your task distribution and progress.</li>
+              <li className="flex gap-2"><Filter size={16} /> <strong>Smart Filters:</strong> Sort tasks by priority, date, or status.</li>
+              <li className="flex gap-2"><Bell size={16} /> <strong>Timely Notifications:</strong> Stay reminded of what’s due.</li>
+              <li className="flex gap-2"><ShieldCheck size={16} /> <strong>Private Workspace:</strong> 100% private and secure.</li>
+              <li className="flex gap-2"><Rocket size={16} /> <strong>Installable App:</strong> Add FlowKeep directly to your home screen or desktop.</li>
+              <li className="flex gap-2"><FolderKanban size={16} /> <strong>Export Tasks:</strong> Download all project tasks as a CSV file for offline use or reporting.</li>
             </ul>
           </section>
 
@@ -150,13 +161,33 @@ export default function DocsPage() {
               <Lightbulb className="w-6 h-6 text-primary" /> Why You’ll Love FlowKeep
             </h2>
             <ul className="space-y-2">
-              <li><strong>Effortless Organization:</strong> You’ll always know what’s new, due, or done.</li>
-              <li><strong>Clear Analytics:</strong> Instantly see priority breakdowns and overdue tasks to plan smarter.</li>
-              <li><strong>Automatic Updates:</strong> No need to manually sort or track due dates.</li>
-              <li><strong>Calm, Focused Design:</strong> Simple and clean layout to help you focus.</li>
-              <li><strong>Privacy & Security:</strong> Your workspace belongs to you alone.</li>
-              <li><strong>Responsive Everywhere:</strong> Works seamlessly on mobile, tablet, and desktop.</li>
+              <li><strong>Effortless Organization:</strong> Always know what’s new, due, or done.</li>
+              <li><strong>Smart Analytics:</strong> Understand your workload instantly.</li>
+              <li><strong>Automatic Updates:</strong> Let FlowKeep handle due dates and overdue tasks.</li>
+              <li><strong>Peaceful UI:</strong> Minimal design to keep your mind clear.</li>
+              <li><strong>Cross-Device Ready:</strong> Fully responsive on phone, tablet, and desktop.</li>
             </ul>
+          </section>
+
+          {/* Lyfn Integration */}
+          <section id="lyfn" className="space-y-6">
+            <h2 className="text-2xl font-semibold flex items-center gap-2">
+              <Cpu className="w-6 h-6 text-primary" /> LyFn Integration
+            </h2>
+            <p className="text-muted-foreground">
+              <strong>LyFn</strong> is an upcoming AI-powered productivity system that will integrate deeply with FlowKeep.
+              It’s designed to act as your personal digital companion — learning from your patterns, helping you focus,
+              and guiding your workflow intelligently.
+            </p>
+            <ul className="list-disc pl-6 space-y-2 text-muted-foreground">
+              <li>Understands your habits and task patterns</li>
+              <li>Offers intelligent recommendations and reminders</li>
+              <li>Assists in reflection, focus, and personal growth</li>
+              <li>Will connect across your tools — FlowKeep, Notes, Journal, and Calendar</li>
+            </ul>
+            <p className="text-muted-foreground">
+              In short, <strong>Lyfn</strong> turns FlowKeep from a productivity app into an intelligent ecosystem that grows with you.
+            </p>
           </section>
 
           {/* Roadmap */}
@@ -164,15 +195,37 @@ export default function DocsPage() {
             <h2 className="text-2xl font-semibold flex items-center gap-2">
               <CalendarClock className="w-6 h-6 text-primary" /> What’s Coming Next
             </h2>
-            <p className="text-muted-foreground">
-              FlowKeep is constantly improving — here’s what’s next:
-            </p>
-            <ul className="list-disc pl-6 space-y-2">
-              <li>✅ Project editing and deletion options</li>
-              <li>✅ Task analytics dashboard</li>
-              <li>🔜 Smart reminders and insights</li>
-              <li>🔜 Shared team projects and collaboration</li>
-            </ul>
+
+            <div className="space-y-4">
+              <div>
+                <h3 className="font-semibold mb-2 text-lg">✅ Current</h3>
+                <ul className="list-disc pl-6 space-y-1 text-muted-foreground">
+                  <li>Progressive Web App</li>
+                  <li>Task analytics dashboard</li>
+                  <li>Automatic task flow system</li>
+                  <li>Project creation, editing, and deletion</li>
+                  <li>CSV export of project tasks</li>
+                </ul>
+              </div>
+
+              <div>
+                <h3 className="font-semibold mb-2 text-lg">🔜 Next</h3>
+                <ul className="list-disc pl-6 space-y-1 text-muted-foreground">
+                  <li>Smart reminders & notifications</li>
+                  <li>Customizable themes</li>
+                  <li>Enhanced task sorting and search</li>
+                </ul>
+              </div>
+
+              <div>
+                <h3 className="font-semibold mb-2 text-lg">🔮 Future</h3>
+                <ul className="list-disc pl-6 space-y-1 text-muted-foreground">
+                  <li>LyFn AI integration</li>
+                  <li>Team collaboration and shared projects</li>
+                  <li>Voice-assisted productivity</li>
+                </ul>
+              </div>
+            </div>
           </section>
 
           {/* Final Note */}
@@ -187,13 +240,14 @@ export default function DocsPage() {
               <Coffee className="w-6 h-6 text-primary" /> Final Note
             </h2>
             <p className="text-muted-foreground">
-              FlowKeep helps you do more than manage tasks — it helps you stay balanced and productive.
-              With automatic organization, analytics, and a distraction-free design, your projects stay in flow.
+              FlowKeep is more than a task app — it’s your personal space for focus and flow.
+              It helps you stay balanced, organized, and clear.
             </p>
-            <p className="text-muted-foreground text-center font-semibold">
+            <p className="text-muted-foreground font-semibold">
               Stay organized. Stay focused. Keep your flow. ✨
             </p>
           </motion.section>
+
         </main>
       </div>
     </div>

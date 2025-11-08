@@ -1,8 +1,10 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Manrope, Outfit } from "next/font/google";
 import "./globals.css";
 import AuthContextProvider from "@/context/AuthContext";
 import { Toaster } from "@/components/ui/sonner"
+import RegisterSW from "./register-sw";
+import Footer from "@/components/server/Footer";
 
 
 const manrope = Manrope({
@@ -32,8 +34,21 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: "Flowkeep" }],
   icons: {
-    icon: '/icon.png'
+    icon: '/icon.png',
+    apple: "/apple-touch-icon.png",
   },
+  manifest: "/manifest.json",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "black-translucent",
+  },
+};
+
+export const viewport: Viewport = {
+
+  themeColor: "#000000",
+
+  colorScheme: "dark",
 
 };
 
@@ -48,8 +63,12 @@ export default function RootLayout({
         className={`${manrope.variable} ${outfit.variable}`}
       >
         <AuthContextProvider>
-          {children}
-          <Toaster theme="light" position="top-center"/>
+          <main className="flex-1">
+            {children}
+          </main>
+          <Footer />
+          <Toaster theme="light" position="top-center" />
+          <RegisterSW />
         </AuthContextProvider>
       </body>
     </html>

@@ -2,7 +2,7 @@ import { ReactNode } from "react";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Flowkeep - User Dashboard",
+  title: "User Dashboard",
   description: "Track your tasks, build better habits with Flowkeep — your minimal productivity dashboard.",
   keywords: [
     "task tracker",
@@ -14,7 +14,8 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: "Flowkeep" }],
   icons: {
-    icon: '/icon.png'
+    icon: '/icon.png',
+    apple: "/apple-touch-icon.png",
   },
 
 };

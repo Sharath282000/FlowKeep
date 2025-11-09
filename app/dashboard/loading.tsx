@@ -1,6 +1,6 @@
-import { Spinner } from '../ui/spinner'
+import { Spinner } from "@/components/ui/spinner"
 
-const Spinnerpage = () => {
+const Loading = () => {
   return (
     <div className='min-h-screen flex items-center justify-center overflow-hidden'>
         <Spinner className='size-8' />
@@ -8,4 +8,4 @@ const Spinnerpage = () => {
   )
 }
 
-export default Spinnerpage
+export default Loading

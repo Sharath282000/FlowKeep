@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { startTransition, useState } from 'react'
 
 import {
     AlertDialog,
@@ -20,6 +20,7 @@ import { toast } from 'sonner'
 import { deleteTask } from '@/app/actions/deleteTask'
 import { Tooltip, TooltipContent, TooltipTrigger } from '../ui/tooltip'
 import { Button } from '../ui/button'
+import { Spinner } from '../ui/spinner'
 
 const DeleteTask = ({ taskId, projectId, title }: { taskId: string, projectId: string, title: string }) => {
 
@@ -28,13 +29,18 @@ const DeleteTask = ({ taskId, projectId, title }: { taskId: string, projectId: s
     const router = useRouter();
 
     const [loading, setloading] = useState(false)
+    const [open, setopen] = useState(false);
 
     const handledeletetask = async () => {
         setloading(true);
         const toastId = toast.loading(`Deleting ${title}...`)
+        await new Promise(resolve => setTimeout(resolve, 2500));
         const res = await deleteTask(projectId, taskId)
         if (res.success == true) {
-            setloading(false);
+            startTransition(() => {
+                setopen(false)
+                setloading(false)
+            })
             toast.success('Task Deleted', {
                 description: `${title} is deleted successfully`,
                 id: toastId
@@ -45,7 +51,7 @@ const DeleteTask = ({ taskId, projectId, title }: { taskId: string, projectId: s
         }
     }
     return (
-        <AlertDialog>
+        <AlertDialog open={open} onOpenChange={setopen}>
             <Tooltip>
                 <TooltipTrigger asChild>
                     <AlertDialogTrigger asChild>
@@ -65,7 +71,10 @@ const DeleteTask = ({ taskId, projectId, title }: { taskId: string, projectId: s
                 </AlertDialogHeader>
                 <AlertDialogFooter>
                     <AlertDialogCancel className='cursor-pointer'>Cancel</AlertDialogCancel>
-                    <AlertDialogAction onClick={handledeletetask} className='bg-destructive cursor-pointer'>Yes, Delete</AlertDialogAction>
+                    <AlertDialogAction disabled={loading} onClick={(e) => {
+                        e.preventDefault()
+                        handledeletetask()
+                    }} className='bg-destructive cursor-pointer'>{loading ? <><Spinner />Deleting...</> : "Yes, Delete"}</AlertDialogAction>
                 </AlertDialogFooter>
             </AlertDialogContent>
         </AlertDialog>

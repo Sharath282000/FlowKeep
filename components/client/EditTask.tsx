@@ -24,6 +24,7 @@ import { updateTask } from "@/app/actions/updateTask";
 import { Calendar } from "@/components/ui/calendar";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { format } from "date-fns";
+import { Spinner } from "../ui/spinner";
 
 const EditTask = ({ Task, projectId }: { Task: TaskData; projectId: string }) => {
     const { user } = useAuth();
@@ -80,15 +81,15 @@ const EditTask = ({ Task, projectId }: { Task: TaskData; projectId: string }) =>
             dueDate: dueDate ? dueDate.toISOString() : null,
             tags,
         };
+        await new Promise(resolve => setTimeout(resolve, 2000));
 
         const res = await updateTask(Task.tid!, projectId, user.uid, data);
-
-        setLoading(false);
 
         if (res?.success) {
             toast.success("Task updated successfully!");
             startTransition(() => {
                 setOpen(false);
+                setLoading(false);
                 router.refresh();
             });
         } else {
@@ -218,7 +219,7 @@ const EditTask = ({ Task, projectId }: { Task: TaskData; projectId: string }) =>
                             </Button>
                         </DialogClose>
                         <Button className='text-xs md:text-sm cursor-pointer' disabled={loading} type="submit">
-                            <Save size={10} className="mr-1" /> Save
+                            {loading ? <><Spinner />Saving...</> : <><Save size={10} className="mr-1" /> Save</>}
                         </Button>
                     </DialogFooter>
                 </form>

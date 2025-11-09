@@ -21,6 +21,7 @@ import { addProjectAction } from '@/app/actions/addProject'
 import { useRouter } from 'next/navigation'
 import { useAuth } from '@/context/AuthContext'
 import { toast } from 'sonner'
+import { Spinner } from '../ui/spinner'
 
 const AddProject = () => {
 
@@ -56,13 +57,14 @@ const AddProject = () => {
 
         setloading(true);
         const toastId = toast.loading(`Adding ${title}...`);
+        await new Promise(resolve => setTimeout(resolve, 2500));
         const res = await addProjectAction(user.uid, title, description);
-        setloading(false);
-        settile('');
-        setdescription('');
         if (res?.success) {
             startTransition(() => {
-                setOpen(false)
+                setOpen(false);
+                setloading(false);
+                settile('');
+                setdescription('');
             })
             toast.success('Project Added', {
                 description: `${title} was successfully added.`,
@@ -108,7 +110,7 @@ const AddProject = () => {
                         <DialogClose asChild>
                             <Button className='text-xs md:text-sm cursor-pointer' variant="outline">Cancel</Button>
                         </DialogClose>
-                        <Button className='text-xs md:text-sm cursor-pointer' disabled={loading} type="submit">Submit</Button>
+                        <Button className='text-xs md:text-sm cursor-pointer' disabled={loading} type="submit">{loading ? <><Spinner /> Submitting…</> : 'Submit'}</Button>
                     </DialogFooter>
                 </form>
 

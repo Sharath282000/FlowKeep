@@ -15,7 +15,7 @@ import {
 } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Edit2} from 'lucide-react'
+import { Edit2, Save} from 'lucide-react'
 import { Textarea } from '../ui/textarea'
 import { useRouter } from 'next/navigation'
 import { useAuth } from '@/context/AuthContext'
@@ -23,6 +23,7 @@ import { Project } from '@/lib/type'
 import { toast } from 'sonner'
 import { updateProject } from '@/app/actions/updateProject'
 import { TooltipTrigger, Tooltip, TooltipContent } from '../ui/tooltip'
+import { Spinner } from '../ui/spinner'
 
 const EditProject = ({ project }: { project: Project }) => {
 
@@ -49,12 +50,13 @@ const EditProject = ({ project }: { project: Project }) => {
             return;
         }
         setLoading(true);
+        await new Promise(resolve => setTimeout(resolve, 1500));
         const res = await updateProject(project.id, user.uid, { title, description })
-        setLoading(false);
 
         if (res?.success) {
             startTransition(() => {
-                setOpen(false)
+                setOpen(false);
+                setLoading(false);
             })
             toast.success('Project updated', {
                 description: `${title} was successfully updated.`,
@@ -104,7 +106,7 @@ const EditProject = ({ project }: { project: Project }) => {
                         <DialogClose asChild>
                             <Button className='text-xs md:text-sm cursor-pointer' variant="outline">Cancel</Button>
                         </DialogClose>
-                        <Button className='text-xs md:text-sm cursor-pointer' disabled={loading} type="submit">Submit</Button>
+                        <Button className='text-xs md:text-sm cursor-pointer' disabled={loading} type="submit">{loading ? <><Spinner />Saving...</> : <><Save size={10} className="mr-1" /> Save</>}</Button>
                     </DialogFooter>
                 </form>
 

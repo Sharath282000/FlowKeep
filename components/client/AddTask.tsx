@@ -23,6 +23,7 @@ import { Priority, PrioritySelect } from '../server/PrioritySelect'
 import { TagInput } from '../server/TagInput'
 import { toast } from 'sonner'
 import { addTask } from '@/app/actions/addTask'
+import { Spinner } from '../ui/spinner'
 
 const AddTask = ({ projectId, projectTitle }: { projectId: string, projectTitle: string }) => {
 
@@ -62,12 +63,13 @@ const AddTask = ({ projectId, projectTitle }: { projectId: string, projectTitle:
 
     const handlesubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
+        setloading(true)
         if (!title.trim()) {
             toast.error("Task Title is required!");
             return;
         }
-        setloading(false);
         const toastId = toast.loading(`Adding ${title}...`);
+        await new Promise(resolve => setTimeout(resolve, 1500));
         const res = await addTask({
             title,
             projectId,
@@ -79,7 +81,8 @@ const AddTask = ({ projectId, projectTitle }: { projectId: string, projectTitle:
         })
         if (res?.success) {
             startTransition(() => {
-                setOpen(false)
+                setOpen(false);
+                setloading(false);
             })
             toast.success('Task Added', {
                 description: `${title} was successfully added.`,
@@ -122,7 +125,7 @@ const AddTask = ({ projectId, projectTitle }: { projectId: string, projectTitle:
                         <DialogClose asChild>
                             <Button className='text-xs md:text-sm cursor-pointer' variant="outline">Cancel</Button>
                         </DialogClose>
-                        <Button className='text-xs md:text-sm cursor-pointer' disabled={loading} type="submit">Submit</Button>
+                        <Button className='text-xs md:text-sm cursor-pointer' disabled={loading} type="submit">{loading ? <><Spinner /> Submitting...</> : "Submit"}</Button>
                     </DialogFooter>
                 </form>
             </DialogContent>

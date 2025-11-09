@@ -34,7 +34,7 @@ const sections = [
   { id: "getting-started", title: "Getting Started", icon: Rocket },
   { id: "features", title: "Key Features", icon: Puzzle },
   { id: "benefits", title: "Why You’ll Love FlowKeep", icon: Lightbulb },
-  { id: "lyfn", title: "Lyfn Integration", icon: Cpu },
+  { id: "lyfn", title: "LyFn Integration", icon: Cpu },
   { id: "roadmap", title: "What’s Coming Next", icon: CalendarClock },
   { id: "final-note", title: "Final Note", icon: Coffee },
 ]
@@ -99,7 +99,7 @@ export default function DocsPage() {
               and can be installed on your desktop or mobile — giving you the feel of a native app anywhere.
             </p>
             <p className="text-muted-foreground">
-              FlowKeep is evolving into an ecosystem that connects with <strong>Lyfn</strong> — an AI-powered personal
+              FlowKeep is evolving into an ecosystem that connects with <strong>LyFn</strong> — an AI-powered personal
               companion that understands your goals, patterns, and habits to make your digital workspace smarter.
             </p>
           </motion.section>

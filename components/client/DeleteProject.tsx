@@ -17,6 +17,8 @@ import { deleteProject } from '@/app/actions/deleteProject'
 import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
 import { Tooltip, TooltipContent, TooltipTrigger } from '../ui/tooltip'
+import { startTransition, useState } from "react"
+import { Spinner } from "../ui/spinner"
 
 const DeleteProject = ({ project, userId }: { project: Project, userId: string | undefined }) => {
     if (!userId) return null;
@@ -24,11 +26,20 @@ const DeleteProject = ({ project, userId }: { project: Project, userId: string |
     const projectId = project.id;
     const router = useRouter();
 
+    const [loading, setloading] = useState(false);
+    const [open, setopen] = useState(false);
+
     const handledelete = async () => {
         try {
+            setloading(true);
             const toastId = toast.loading(`Deleting ${project.title}...`);
+            await new Promise(resolve => setTimeout(resolve, 2500));
             const res = await deleteProject(projectId, userId);
             if (res?.success) {
+                startTransition(() => {
+                    setopen(false);
+                    setloading(false);
+                })
                 toast.success('Project Deleted', {
                     description: `${project.title} was successfully deleted.`,
                     id: toastId,
@@ -43,7 +54,7 @@ const DeleteProject = ({ project, userId }: { project: Project, userId: string |
     }
 
     return (
-        <AlertDialog>
+        <AlertDialog open={open} onOpenChange={setopen}>
             <Tooltip>
                 <TooltipTrigger asChild>
                     <AlertDialogTrigger asChild>
@@ -64,7 +75,10 @@ const DeleteProject = ({ project, userId }: { project: Project, userId: string |
                 </AlertDialogHeader>
                 <AlertDialogFooter>
                     <AlertDialogCancel className='cursor-pointer'>Cancel</AlertDialogCancel>
-                    <AlertDialogAction onClick={handledelete} className='bg-destructive cursor-pointer'>Yes, Delete</AlertDialogAction>
+                    <AlertDialogAction onClick={(e) => {
+                        e.preventDefault()
+                        handledelete()
+                    }} disabled={loading} className='bg-destructive cursor-pointer'>{loading ? <><Spinner />Deleting...</> : "Yes, Delete"}</AlertDialogAction>
                 </AlertDialogFooter>
             </AlertDialogContent>
         </AlertDialog>

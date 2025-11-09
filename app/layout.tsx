@@ -5,6 +5,7 @@ import AuthContextProvider from "@/context/AuthContext";
 import { Toaster } from "@/components/ui/sonner"
 import RegisterSW from "./register-sw";
 import Footer from "@/components/server/Footer";
+import InstallPrompt from "@/components/client/InstallPrompt";
 
 
 const manrope = Manrope({
@@ -69,6 +70,7 @@ export default function RootLayout({
           <Footer />
           <Toaster theme="light" position="top-center" />
           <RegisterSW />
+          <InstallPrompt/>
         </AuthContextProvider>
       </body>
     </html>

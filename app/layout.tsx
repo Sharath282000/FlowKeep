@@ -35,10 +35,30 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: "Flowkeep" }],
   icons: {
-    icon: '/icon.png',
-    apple: "/apple-touch-icon.png",
+    icon: [
+      {
+        url: "/icons/icon-192x192.png",
+        sizes: "192x192",
+        type: "image/png",
+      },
+      {
+        url: "/icons/icon-512x512.png",
+        sizes: "512x512",
+        type: "image/png",
+      },
+    ],
+    apple: [
+      {
+        url: "/apple-touch-icon.png",
+        sizes: "180x180",
+      },
+      {
+        url: "/icons/icon-512x512.png",
+        sizes: "512x512",
+      },
+    ],
   },
-  manifest: "/manifest-v1.json",
+  manifest: "/manifest-v2.json",
   appleWebApp: {
     capable: true,
     statusBarStyle: "black-translucent",
@@ -70,7 +90,7 @@ export default function RootLayout({
           <Footer />
           <Toaster theme="light" position="top-center" />
           <RegisterSW />
-          <InstallPrompt/>
+          <InstallPrompt />
         </AuthContextProvider>
       </body>
     </html>

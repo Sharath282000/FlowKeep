@@ -81,7 +81,7 @@ const EditTask = ({ Task, projectId }: { Task: TaskData; projectId: string }) =>
             dueDate: dueDate ? dueDate.toISOString() : null,
             tags,
         };
-        await new Promise(resolve => setTimeout(resolve, 2000));
+        await new Promise(resolve => setTimeout(resolve, 500));
 
         const res = await updateTask(Task.tid!, projectId, user.uid, data);
 

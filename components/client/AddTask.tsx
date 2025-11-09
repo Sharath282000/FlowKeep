@@ -69,7 +69,7 @@ const AddTask = ({ projectId, projectTitle }: { projectId: string, projectTitle:
             return;
         }
         const toastId = toast.loading(`Adding ${title}...`);
-        await new Promise(resolve => setTimeout(resolve, 1500));
+        await new Promise(resolve => setTimeout(resolve, 500));
         const res = await addTask({
             title,
             projectId,

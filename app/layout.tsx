@@ -33,20 +33,16 @@ export const metadata: Metadata = {
     "Flowkeep",
     "Flowkeep tasks"
   ],
+  applicationName: "FlowKeep",
+
   authors: [{ name: "Flowkeep" }],
   icons: {
-    icon: [
-      {
-        url: "/icons/icon-192x192.png",
-        sizes: "192x192",
-        type: "image/png",
-      },
-      {
-        url: "/icons/icon-512x512.png",
-        sizes: "512x512",
-        type: "image/png",
-      },
-    ],
+    icon:
+    {
+      url: "/icons/icon-512x512.png",
+      sizes: "512x512",
+      type: "image/png",
+    },
     apple: [
       {
         url: "/apple-touch-icon.png",
@@ -58,7 +54,7 @@ export const metadata: Metadata = {
       },
     ],
   },
-  manifest: "/manifest-v2.json",
+  manifest: "/manifest.json",
   appleWebApp: {
     capable: true,
     statusBarStyle: "black-translucent",

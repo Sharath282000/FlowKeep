@@ -38,7 +38,7 @@ export const metadata: Metadata = {
     icon: '/icon.png',
     apple: "/apple-touch-icon.png",
   },
-  manifest: "/manifest.json",
+  manifest: "/manifest-v1.json",
   appleWebApp: {
     capable: true,
     statusBarStyle: "black-translucent",

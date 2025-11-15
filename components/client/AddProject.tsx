@@ -22,10 +22,23 @@ import { useRouter } from 'next/navigation'
 import { useAuth } from '@/context/AuthContext'
 import { toast } from 'sonner'
 import { Spinner } from '../ui/spinner'
+import { useMediaQuery } from '@/hooks/useMediaQuery'
+import {
+    Drawer,
+    DrawerClose,
+    DrawerContent,
+    DrawerDescription,
+    DrawerFooter,
+    DrawerHeader,
+    DrawerTitle,
+    DrawerTrigger,
+} from "@/components/ui/drawer"
 
 const AddProject = () => {
 
     const { user } = useAuth();
+
+    const isDesktop = useMediaQuery("(min-width: 768px)")
 
     const [isPending, startTransition] = useTransition()
 
@@ -76,51 +89,92 @@ const AddProject = () => {
         }
     }
 
-    return (
-        <Dialog open={open} onOpenChange={setOpen}>
-            <DialogTrigger asChild>
-                <Button className='cursor-pointer rounded-2xl md:rounded text-xs md:text-sm'>
-                    <Plus /> New Project
-                </Button>
-            </DialogTrigger>
-            <DialogContent className="sm:max-w-[425px]">
+    if (isDesktop) {
 
-                <DialogHeader>
-                    <DialogTitle className='text-base md:text-xl'>Add Your Project</DialogTitle>
-                    <DialogDescription className='text-xs md:text-sm leading-relaxed'>
-                        Enter your project name and a brief summary of what you plan to achieve.
-                    </DialogDescription>
-                </DialogHeader>
-                <form onSubmit={handlesubmit} autoComplete='off'>
-                    <div className="grid gap-4">
-                        <div className="grid gap-3">
-                            <Label htmlFor="pname" className='text-sm md:text-base'>Project Name</Label>
-                            <Input id="pname" name="pname" value={title} onChange={(e) => {
-                                settile(e.target.value)
-                            }} className='placeholder:text-xs placeholder:text-gray-400 md:placeholder:text-sm text-sm md:text-base' placeholder='Enter your project name' />
-                        </div>
-                        <div className="grid gap-3">
-                            <Label htmlFor="description" className='text-sm md:text-base'>Project Description</Label>
-                            <Textarea id="description" value={description} onChange={(e) => {
-                                setdescription(e.target.value)
-                            }} className='placeholder:text-xs resize-none overflow-y-auto max-h-40 placeholder:text-gray-400 md:placeholder:text-sm text-sm md:text-base' name="description" placeholder='Enter project description' />
-                        </div>
-                    </div>
-                    <DialogFooter className='mt-4'>
-                        <DialogClose asChild>
-                            <Button className='text-xs md:text-sm cursor-pointer' variant="outline">Cancel</Button>
-                        </DialogClose>
-                        <Button className='text-xs md:text-sm cursor-pointer' disabled={loading} type="submit">{loading ? <><Spinner /> Submitting…</> : 'Submit'}</Button>
-                    </DialogFooter>
-                </form>
+        return (
+            <Dialog open={open} onOpenChange={setOpen}>
+                <DialogTrigger asChild>
+                    <Button className='cursor-pointer rounded-2xl md:rounded text-xs md:text-sm'>
+                        <Plus /> New Project
+                    </Button>
+                </DialogTrigger>
+                <DialogContent className="sm:max-w-[425px]">
 
-            </DialogContent>
-        </Dialog>
-    )
+                    <DialogHeader>
+                        <DialogTitle className='text-base md:text-xl'>Add Your Project</DialogTitle>
+                        <DialogDescription className='text-xs md:text-sm leading-relaxed'>
+                            Enter your project name and a brief summary of what you plan to achieve.
+                        </DialogDescription>
+                    </DialogHeader>
+                    <form onSubmit={handlesubmit} autoComplete='off'>
+                        <div className="grid gap-4">
+                            <div className="grid gap-3">
+                                <Label htmlFor="pname" className='text-sm md:text-base'>Project Name</Label>
+                                <Input id="pname" name="pname" value={title} onChange={(e) => {
+                                    settile(e.target.value)
+                                }} className='placeholder:text-xs placeholder:text-gray-400 md:placeholder:text-sm text-sm md:text-base' placeholder='Enter your project name' />
+                            </div>
+                            <div className="grid gap-3">
+                                <Label htmlFor="description" className='text-sm md:text-base'>Project Description</Label>
+                                <Textarea id="description" value={description} onChange={(e) => {
+                                    setdescription(e.target.value)
+                                }} className='placeholder:text-xs resize-none overflow-y-auto max-h-40 placeholder:text-gray-400 md:placeholder:text-sm text-sm md:text-base' name="description" placeholder='Enter project description' />
+                            </div>
+                        </div>
+                        <DialogFooter className='mt-4'>
+                            <DialogClose asChild>
+                                <Button className='text-xs md:text-sm cursor-pointer' variant="outline">Cancel</Button>
+                            </DialogClose>
+                            <Button className='text-xs md:text-sm cursor-pointer' disabled={loading} type="submit">{loading ? <><Spinner /> Submitting…</> : 'Submit'}</Button>
+                        </DialogFooter>
+                    </form>
+
+                </DialogContent>
+            </Dialog>
+        )
+    } else {
+        return (
+            <Drawer open={open} onOpenChange={setOpen}>
+                <DrawerTrigger asChild>
+                    <Button className='cursor-pointer rounded-2xl md:rounded text-xs md:text-sm'>
+                        <Plus /> New Project
+                    </Button>
+                </DrawerTrigger>
+                <DrawerContent className="p-5">
+                    <DrawerHeader>
+                        <DrawerTitle className='text-base md:text-xl'>
+                            Add Your Project
+                        </DrawerTitle>
+                        <DrawerDescription className='text-xs md:text-sm leading-relaxed'>
+                            Enter your project name and a brief summary of what you plan to achieve.
+                        </DrawerDescription>
+                    </DrawerHeader>
+                    <form onSubmit={handlesubmit} autoComplete='off'>
+                        <div className="grid gap-4">
+                            <div className="grid gap-3">
+                                <Label htmlFor="pname" className='text-sm md:text-base'>Project Name</Label>
+                                <Input id="pname" name="pname" value={title} onChange={(e) => {
+                                    settile(e.target.value)
+                                }} className='placeholder:text-xs placeholder:text-gray-400 md:placeholder:text-sm text-sm md:text-base' placeholder='Enter your project name' />
+                            </div>
+                            <div className="grid gap-3">
+                                <Label htmlFor="description" className='text-sm md:text-base'>Project Description</Label>
+                                <Textarea id="description" value={description} onChange={(e) => {
+                                    setdescription(e.target.value)
+                                }} className='placeholder:text-xs resize-none overflow-y-auto max-h-40 placeholder:text-gray-400 md:placeholder:text-sm text-sm md:text-base' name="description" placeholder='Enter project description' />
+                            </div>
+                        </div>
+                        <DrawerFooter className='mt-4'>
+                            <DrawerClose asChild>
+                                <Button className='text-xs md:text-sm cursor-pointer' variant="outline">Cancel</Button>
+                            </DrawerClose>
+                            <Button className='text-xs md:text-sm cursor-pointer' disabled={loading} type="submit">{loading ? <><Spinner /> Submitting…</> : 'Submit'}</Button>
+                        </DrawerFooter>
+                    </form>
+                </DrawerContent>
+            </Drawer>
+        )
+    }
 }
 
 export default AddProject
-
-function setLoading(arg0: boolean) {
-    throw new Error('Function not implemented.')
-}

@@ -24,10 +24,23 @@ import { TagInput } from '../server/TagInput'
 import { toast } from 'sonner'
 import { addTask } from '@/app/actions/addTask'
 import { Spinner } from '../ui/spinner'
+import { useMediaQuery } from '@/hooks/useMediaQuery'
+import {
+    Drawer,
+    DrawerClose,
+    DrawerContent,
+    DrawerDescription,
+    DrawerFooter,
+    DrawerHeader,
+    DrawerTitle,
+    DrawerTrigger,
+} from "@/components/ui/drawer"
 
 const AddTask = ({ projectId, projectTitle }: { projectId: string, projectTitle: string }) => {
 
     const { user } = useAuth();
+
+    const isDesktop = useMediaQuery("(min-width: 768px)")
 
     const [isPending, startTransition] = useTransition()
 
@@ -94,43 +107,88 @@ const AddTask = ({ projectId, projectTitle }: { projectId: string, projectTitle:
         }
     }
 
-    return (
-        <Dialog open={open} onOpenChange={setOpen}>
-            <DialogTrigger asChild>
-                <Button className='cursor-pointer mb-3 rounded-2xl md:rounded text-xs md:text-sm'>
-                    <Plus /> New Task
-                </Button>
-            </DialogTrigger>
-            <DialogContent className="sm:max-w-[425px] max-h-[85%] md:max-h-full md:overflow-hidden overflow-y-scroll">
-                <DialogHeader>
-                    <DialogTitle className='text-base md:text-xl'>Add Your Task</DialogTitle>
-                    <DialogDescription className='text-xs md:text-sm leading-relaxed'>
-                        What's the next step? Add a clear action item to your board - <strong className='leading-relaxed'>{projectTitle}</strong>.
-                    </DialogDescription>
-                </DialogHeader>
-                <form onSubmit={handlesubmit} autoComplete='off'>
-                    <div className="grid gap-4">
-                        <div className="grid gap-3">
-                            <Label htmlFor="tname" className='text-sm md:text-base'>Task Title</Label>
-                            <Input id="tname" name="tname" value={title} onChange={(e) => {
-                                settile(e.target.value)
-                            }} className='placeholder:text-xs placeholder:text-gray-400 md:placeholder:text-sm text-sm md:text-base' placeholder='Enter Task Title' />
-                        </div>
+    if (isDesktop) {
 
-                        <CalendarInput date={dueDate} setDate={setDueDate} />
-                        <PrioritySelect priority={priority} setPriority={setPriority} />
-                        <TagInput tags={tags} setTags={setTags} />
+        return (
+            <Dialog open={open} onOpenChange={setOpen}>
+                <DialogTrigger asChild>
+                    <Button className='cursor-pointer mb-3 rounded-2xl md:rounded text-xs md:text-sm'>
+                        <Plus /> New Task
+                    </Button>
+                </DialogTrigger>
+                <DialogContent className="sm:max-w-[425px] max-h-[85%] md:max-h-full md:overflow-hidden overflow-y-scroll">
+                    <DialogHeader>
+                        <DialogTitle className='text-base md:text-xl'>Add Your Task</DialogTitle>
+                        <DialogDescription className='text-xs md:text-sm leading-relaxed'>
+                            What's the next step? Add a clear action item to your board - <strong className='leading-relaxed'>{projectTitle}</strong>.
+                        </DialogDescription>
+                    </DialogHeader>
+                    <form onSubmit={handlesubmit} autoComplete='off'>
+                        <div className="grid gap-4">
+                            <div className="grid gap-3">
+                                <Label htmlFor="tname" className='text-sm md:text-base'>Task Title</Label>
+                                <Input id="tname" name="tname" value={title} onChange={(e) => {
+                                    settile(e.target.value)
+                                }} className='placeholder:text-xs placeholder:text-gray-400 md:placeholder:text-sm text-sm md:text-base' placeholder='Enter Task Title' />
+                            </div>
+
+                            <CalendarInput date={dueDate} setDate={setDueDate} />
+                            <PrioritySelect priority={priority} setPriority={setPriority} />
+                            <TagInput tags={tags} setTags={setTags} />
+                        </div>
+                        <DialogFooter className='mt-4'>
+                            <DialogClose asChild>
+                                <Button className='text-xs md:text-sm cursor-pointer' variant="outline">Cancel</Button>
+                            </DialogClose>
+                            <Button className='text-xs md:text-sm cursor-pointer' disabled={loading} type="submit">{loading ? <><Spinner /> Submitting...</> : "Submit"}</Button>
+                        </DialogFooter>
+                    </form>
+                </DialogContent>
+            </Dialog>
+        )
+    } else {
+        return (
+            <Drawer open={open} onOpenChange={setOpen}>
+                <DrawerTrigger asChild>
+                    <Button className='cursor-pointer mb-3 rounded-2xl md:rounded text-xs md:text-sm'>
+                        <Plus /> New Task
+                    </Button>
+                </DrawerTrigger>
+                <DrawerContent className="px-4" style={{ paddingBottom: "env(safe-area-inset-bottom)" }}>
+                    <div className="max-h-[70vh] overflow-y-auto pr-1">
+                        <DrawerHeader>
+                            <DrawerTitle className='text-base md:text-xl'>
+                                Add Your Task
+                            </DrawerTitle>
+                            <DrawerDescription className='text-xs md:text-sm leading-relaxed'>
+                                What's the next step? Add a clear action item to your board - <strong className='leading-relaxed'>{projectTitle}</strong>.
+                            </DrawerDescription>
+                        </DrawerHeader>
+                        <form onSubmit={handlesubmit} autoComplete='off'>
+                            <div className="grid gap-4">
+                                <div className="grid gap-3">
+                                    <Label htmlFor="tname" className='text-sm md:text-base'>Task Title</Label>
+                                    <Input id="tname" name="tname" value={title} onChange={(e) => {
+                                        settile(e.target.value)
+                                    }} className='placeholder:text-xs placeholder:text-gray-400 md:placeholder:text-sm text-sm md:text-base' placeholder='Enter Task Title' />
+                                </div>
+
+                                <CalendarInput date={dueDate} setDate={setDueDate} />
+                                <PrioritySelect priority={priority} setPriority={setPriority} />
+                                <TagInput tags={tags} setTags={setTags} />
+                            </div>
+                            <DrawerFooter className='mt-4'>
+                                <DrawerClose asChild>
+                                    <Button className='text-xs md:text-sm cursor-pointer' variant="outline">Cancel</Button>
+                                </DrawerClose>
+                                <Button className='text-xs md:text-sm cursor-pointer' disabled={loading} type="submit">{loading ? <><Spinner /> Submitting...</> : "Submit"}</Button>
+                            </DrawerFooter>
+                        </form>
                     </div>
-                    <DialogFooter className='mt-4'>
-                        <DialogClose asChild>
-                            <Button className='text-xs md:text-sm cursor-pointer' variant="outline">Cancel</Button>
-                        </DialogClose>
-                        <Button className='text-xs md:text-sm cursor-pointer' disabled={loading} type="submit">{loading ? <><Spinner /> Submitting...</> : "Submit"}</Button>
-                    </DialogFooter>
-                </form>
-            </DialogContent>
-        </Dialog>
-    )
+                </DrawerContent>
+            </Drawer>
+        )
+    }
 }
 
 export default AddTask
